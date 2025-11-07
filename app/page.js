@@ -12,11 +12,44 @@ const featuredHeroImages = [
   },
 ];
 
+const featuredCategories = [
+  {
+    id: "official-phone",
+    name: "Official iPhone",
+    description: "Authorized devices with local warranty coverage.",
+  },
+  {
+    id: "smart-watches",
+    name: "Smart Watches",
+    description: "Track fitness, manage calls, and stay in style.",
+  },
+  {
+    id: "earbuds",
+    name: "EarBuds",
+    description: "Immersive audio companions for every playlist.",
+  },
+  {
+    id: "cover-glass",
+    name: "Covers & Glass",
+    description: "Protective gear tailored for Apple devices.",
+  },
+  {
+    id: "powerbank",
+    name: "Powerbank",
+    description: "Stay powered wherever you go.",
+  },
+  {
+    id: "charger-cable",
+    name: "Chargers & Cables",
+    description: "Fast charging essentials and braided cables.",
+  },
+];
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-100">
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-6 pb-24 pt-16 sm:px-10 lg:px-16 lg:pb-32 lg:pt-24">
-        <section className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-slate-200 via-white to-slate-100 p-8 shadow-lg shadow-slate-900/5 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900">
+        <section className="relative isolate overflow-hidden rounded-3xl bg-linear-to-br from-slate-200 via-white to-slate-100 p-8 shadow-lg shadow-slate-900/5 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900">
           <div className="mx-auto grid max-w-5xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div className="flex flex-col gap-6">
               <div className="inline-flex items-center gap-3 rounded-full bg-slate-900/5 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-slate-700 dark:bg-white/10 dark:text-zinc-200">
@@ -34,7 +67,7 @@ export default function Home() {
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center rounded-full bg-sky-600 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-sky-600/30 transition-transform duration-300 hover:-translate-y-0.5 hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                  className="inline-flex items-center justify-center rounded-full bg-sky-600 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-sky-600/30 transition-transform duration-300 hover:-translate-y-0.5 hover:bg-sky-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-zinc-900"
                 >
                   Shop Now
                 </Link>
@@ -84,6 +117,54 @@ export default function Home() {
               <div className="absolute -left-20 top-8 hidden h-32 w-32 rounded-full bg-sky-400/20 blur-3xl lg:block" />
               <div className="absolute -right-14 -bottom-8 hidden h-28 w-28 rounded-full bg-emerald-400/20 blur-3xl lg:block" />
             </div>
+          </div>
+        </section>
+        <section className="space-y-10">
+          <div className="flex flex-col gap-4 text-center lg:text-left">
+            <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-sky-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-sky-600 dark:bg-sky-400/10 dark:text-sky-300 lg:self-start">
+              Shop by Category
+            </div>
+            <div className="space-y-3">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Explore Essentials Tailored for Your Apple Ecosystem
+              </h2>
+              <p className="mx-auto max-w-3xl text-base text-slate-600 dark:text-zinc-400 lg:mx-0">
+                Browse curated collections featuring the most-loved Apple Nation BD categories. Each section is optimized for quick discovery and deeper exploration.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredCategories.map((category) => (
+              <Link
+                key={category.id}
+                href={`/categories/${category.id}`}
+                className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-lg shadow-slate-900/5 transition-transform duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-400">
+                      Category
+                    </span>
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-zinc-100">
+                      {category.name}
+                    </h3>
+                  </div>
+                  <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white transition-colors duration-300 group-hover:bg-sky-600">
+                    View
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed text-slate-600 transition-colors duration-300 group-hover:text-slate-700 dark:text-zinc-400 dark:group-hover:text-zinc-300">
+                  {category.description}
+                </p>
+                <div className="flex items-center justify-between text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-zinc-500">
+                  Shop now
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
+                <div className="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-sky-400/10 blur-3xl transition-opacity duration-300 group-hover:opacity-100" />
+              </Link>
+            ))}
           </div>
         </section>
       </main>

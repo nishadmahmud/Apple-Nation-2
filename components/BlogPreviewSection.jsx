@@ -1,37 +1,31 @@
+import Image from "next/image";
 import Link from "next/link";
 
-const blogPreviews = [
-  {
-    id: "blog-101",
-    title: "Top 5 Apple Ecosystem Essentials for 2025",
-    excerpt:
-      "Streamline your daily workflow with handpicked gadgets that elevate productivity across all Apple devices.",
-    date: "Oct 12, 2025",
-  },
-  {
-    id: "blog-102",
-    title: "How to Extend Your iPhone Battery Health the Smart Way",
-    excerpt:
-      "Practical charging habits, recommended accessories, and maintenance tips straight from Apple-certified experts.",
-    date: "Sep 28, 2025",
-  },
-  {
-    id: "blog-103",
-    title: "Choosing the Right Apple Watch for Your Lifestyle",
-    excerpt:
-      "Compare Ultra, Series, and SE lineups with feature breakdowns to find your ideal wearable.",
-    date: "Sep 14, 2025",
-  },
-];
+const formatDate = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString;
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};
 
-export default function BlogPreviewSection() {
+export default function BlogPreviewSection({ posts = [] }) {
+  if (!posts.length) {
+    return null;
+  }
+
+  const highlightedPosts = posts.slice(0, 3);
+
   return (
     <section className="space-y-10">
       <div className="flex flex-col gap-3 text-center lg:text-left">
         <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-amber-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-amber-600 dark:bg-amber-400/10 dark:text-amber-300 lg:self-start">
           Insights & Stories
         </div>
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-zinc-100">
           Stay informed with the Apple Nation blog
         </h2>
         <p className="mx-auto max-w-3xl text-base text-slate-600 dark:text-zinc-400 lg:mx-0">
@@ -39,31 +33,59 @@ export default function BlogPreviewSection() {
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-3">
-        {blogPreviews.map((post) => (
-          <article
-            key={post.id}
-            className="flex h-full flex-col justify-between gap-4 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-lg shadow-slate-900/5 transition-transform duration-300 hover:-translate-y-1 hover:border-amber-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-amber-400"
-          >
-            <div className="space-y-3">
-              <span className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
-                {post.date}
-              </span>
-              <h3 className="text-xl font-semibold text-slate-900 transition-colors duration-300 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400">
-                {post.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-                {post.excerpt}
-              </p>
-            </div>
-            <Link
-              href="/blogs"
-              className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-slate-900 transition-colors duration-300 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400"
+        {highlightedPosts.map((post) => {
+          const cover =
+            post.image_path || post.thumbnail || post.cover_image || null;
+          const targetHref = post.slug ? `/blogs/${post.slug}` : "/blogs";
+          const excerpt =
+            post.short_description || post.excerpt || post.description || "";
+          const dateLabel =
+            formatDate(post.published_at || post.created_at || post.updated_at) ||
+            "Latest";
+
+          return (
+            <article
+              key={post.id ?? post.slug}
+              className="flex h-full flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-lg shadow-slate-900/5 transition-transform duration-300 hover:-translate-y-1 hover:border-amber-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-amber-400"
             >
-              Read more
-              <span aria-hidden>→</span>
-            </Link>
-          </article>
-        ))}
+              <div className="flex flex-col gap-4 p-6">
+                {cover ? (
+                  <div className="relative h-40 w-full overflow-hidden rounded-xl bg-amber-100/50">
+                    <Image
+                      src={cover}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                ) : null}
+                <div className="space-y-3">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                    {dateLabel}
+                  </span>
+                  <Link
+                    href={targetHref}
+                    className="text-left text-xl font-semibold text-slate-900 transition-colors duration-300 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400 line-clamp-2"
+                  >
+                    {post.title}
+                  </Link>
+                  {excerpt ? (
+                    <p className="text-sm leading-relaxed text-slate-600 dark:text-zinc-400 line-clamp-3">
+                      {excerpt}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-slate-200 px-6 py-4 text-sm font-semibold text-slate-900 transition-colors duration-300 hover:text-amber-600 dark:border-zinc-800 dark:text-zinc-100 dark:hover:text-amber-400">
+                <Link href={targetHref} className="flex items-center gap-2">
+                  Read more
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

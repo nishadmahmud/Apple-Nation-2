@@ -31,7 +31,7 @@ export default function TrustBanner() {
   return (
     <section className="space-y-12 rounded-3xl bg-white/90 p-10 shadow-xl shadow-slate-900/5 backdrop-blur-sm dark:bg-zinc-900/70">
       <div className="flex flex-col gap-3 text-center lg:text-left">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-zinc-100">
           Why shoppers trust Apple Nation BD
         </h2>
         <p className="mx-auto max-w-3xl text-base text-slate-600 dark:text-zinc-400 lg:mx-0">
@@ -58,7 +58,7 @@ export default function TrustBanner() {
           </div>
         ))}
       </div>
-      <div className="flex flex-col items-center justify-between gap-6 rounded-2xl bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-8 text-center text-white sm:flex-row sm:text-left">
+      <div className="flex flex-col items-center justify-between gap-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-8 text-center text-white dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 sm:flex-row sm:text-left">
         <div className="space-y-1">
           <h3 className="text-2xl font-semibold">
             Ready to experience the Apple Nation difference?

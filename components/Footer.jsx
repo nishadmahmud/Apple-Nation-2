@@ -49,8 +49,8 @@ export default function Footer() {
                 </span>
               </div>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed">
-              Bangladesh’s trusted destination for premium Apple devices, accessories, and expert service. Genuine products, local warranty, and fast delivery nationwide.
+            <p className="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+              Bangladesh&apos;s trusted destination for premium Apple devices, accessories, and expert service. Genuine products, local warranty, and fast delivery nationwide.
             </p>
             <div className="flex flex-wrap items-center gap-3 text-sm">
               <Link
@@ -73,11 +73,11 @@ export default function Footer() {
                 {menu.title}
               </h3>
               <ul className="flex flex-col gap-3 text-sm">
-                {menu.links.map((link) => (
-                  <li key={link.href}>
+                {menu.links.map((link, index) => (
+                  <li key={`${menu.title}-${link.label}-${index}`}>
                     <Link
                       href={link.href}
-                      className="transition-colors hover:text-slate-900 hover:underline dark:hover:text-white"
+                      className="text-slate-600 transition-colors hover:text-slate-900 hover:underline dark:text-zinc-400 dark:hover:text-white"
                     >
                       {link.label}
                     </Link>

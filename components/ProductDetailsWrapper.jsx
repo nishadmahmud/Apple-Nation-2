@@ -1,0 +1,34 @@
+"use client";
+
+import { useState } from "react";
+import ProductImageGallery from "./ProductImageGallery";
+import ProductInfoSection from "./ProductInfoSection";
+
+export default function ProductDetailsWrapper({ product, images, hasDiscount, discount, discountType }) {
+  const [isInStock, setIsInStock] = useState(true);
+
+  const handleStockStatusChange = (inStock) => {
+    setIsInStock(inStock);
+  };
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-2">
+      {/* Image Gallery */}
+      <ProductImageGallery
+        images={images}
+        productName={product.name}
+        hasDiscount={hasDiscount}
+        discount={discount}
+        discountType={discountType}
+        isInStock={isInStock}
+      />
+
+      {/* Product Info */}
+      <ProductInfoSection 
+        product={product} 
+        onStockStatusChange={handleStockStatusChange}
+      />
+    </div>
+  );
+}
+

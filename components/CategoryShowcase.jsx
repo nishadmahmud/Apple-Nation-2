@@ -60,7 +60,7 @@ export default function CategoryShowcase({ categories = [] }) {
           </p>
         </div>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
         {categories.map((category) => {
           const iconValue = getCategoryIcon(category.slug ?? category.name);
           const isCustomIcon = iconValue === "custom";
@@ -70,7 +70,7 @@ export default function CategoryShowcase({ categories = [] }) {
           return (
             <Link
               key={category.id}
-              href={`/categories/${category.slug ?? category.id}`}
+              href={`/products?category=${category.id}`}
               className="group relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white/85 p-6 shadow-lg shadow-slate-900/5 transition-transform duration-300 hover:-translate-y-1 hover:border-sky-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-sky-500/60"
             >
               <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-sky-500/15 text-sky-600 transition-transform duration-300 group-hover:scale-110 dark:bg-sky-400/10 dark:text-sky-200">

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import ProductVariantSelector from "./ProductVariantSelector";
 import { MdShoppingCart, MdCheckCircle, MdCancel } from "react-icons/md";
+import { useCart } from "./CartContext";
 
 const formatCurrency = (value) => {
   const amount = Number(value);
@@ -22,6 +23,7 @@ const calculateDiscountedPrice = (price, discount, discountType) => {
 };
 
 export default function ProductInfoSection({ product, onStockStatusChange }) {
+  const { addItem } = useCart();
   const hasVariants = product.have_variant === 1 && 
                      product.imeis && 
                      Array.isArray(product.imeis) && 
@@ -138,6 +140,38 @@ export default function ProductInfoSection({ product, onStockStatusChange }) {
               ? "bg-sky-600 hover:bg-sky-700 hover:-translate-y-0.5 hover:shadow-xl dark:bg-sky-500 dark:hover:bg-sky-600"
               : "cursor-not-allowed bg-slate-400 opacity-50 dark:bg-zinc-600"
           }`}
+          onClick={() => {
+            if (!isInStock) return;
+            const image =
+              (product.images && product.images[0]) ||
+              product.image_path ||
+              product.thumbnail ||
+              "/globe.svg";
+            addItem(
+              {
+                id: product.id,
+                variantId: selectedVariant?.id || null,
+                name: product.name,
+                price:
+                  (hasVariants && selectedVariant
+                    ? calculateDiscountedPrice(
+                        selectedVariant.sale_price || product.retails_price,
+                        discount,
+                        discountType
+                      )
+                    : discountedPrice) || 0,
+                image,
+                attributes: selectedVariant
+                  ? {
+                      color: selectedVariant.color,
+                      storage: selectedVariant.storage,
+                      region: selectedVariant.region,
+                    }
+                  : null,
+              },
+              1
+            );
+          }}
         >
           <MdShoppingCart className="h-5 w-5" />
           {isInStock ? "Add to Cart" : "Out of Stock"}

@@ -13,12 +13,6 @@ export default function ThemeToggle() {
     const checkTheme = () => {
       if (typeof window === "undefined") return false;
       
-      // Check if dark class is already on html element
-      if (document.documentElement.classList.contains("dark")) {
-        return true;
-      }
-      
-      // Check localStorage
       try {
         const stored = localStorage.getItem("theme");
         if (stored === "dark") return true;
@@ -26,9 +20,9 @@ export default function ThemeToggle() {
       } catch (e) {
         console.error("Error reading theme:", e);
       }
-      
-      // Check system preference
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      // Fallback to document class
+      return document.documentElement.classList.contains("dark");
     };
 
     const dark = checkTheme();

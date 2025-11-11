@@ -31,8 +31,8 @@ export default function RootLayout({ children }) {
             __html: `
               (function() {
                 try {
-                  const theme = localStorage.getItem('theme') || 
-                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                  const stored = localStorage.getItem('theme');
+                  const theme = stored || 'light';
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
                   } else {

@@ -79,7 +79,7 @@ export default function CategoryBanner() {
       {/* Large Phone Section */}
       <Link
         href={officialPhoneId ? `/products?category=${officialPhoneId}` : "/products"}
-        className="group relative aspect-[12/9] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:aspect-auto lg:min-h-[500px]"
+        className="group relative aspect-[16/9] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:aspect-auto lg:min-h-[500px]"
       >
         {/* Phone Background Images Slider */}
         {phoneImages.map((phone, index) => (
@@ -104,11 +104,11 @@ export default function CategoryBanner() {
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
 
         {/* Content - All at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 space-y-3 p-3 md:p-6 lg:space-y-4 lg:p-8">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-sm lg:px-4 lg:py-2 lg:text-sm">
+        <div className="absolute bottom-0 left-0 right-0 z-10 space-y-1 p-2 md:space-y-3 md:p-6 lg:space-y-4 lg:p-8">
+          <div className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm md:gap-2 md:px-3 md:py-1.5 md:text-xs lg:px-4 lg:py-2 lg:text-sm">
             Official Phones
           </div>
-          <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-5xl">
+          <h2 className="text-sm font-bold text-white sm:text-xl md:text-2xl lg:text-5xl">
             Latest iPhone Series
           </h2>
           <p className="hidden max-w-md text-sm text-slate-200 md:block lg:text-base">
@@ -118,14 +118,14 @@ export default function CategoryBanner() {
 
           {/* CTA Button */}
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-xs font-semibold text-white transition-transform duration-300 group-hover:scale-105 lg:px-6 lg:py-3 lg:text-sm">
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-3 py-1.5 text-[10px] font-semibold text-white transition-transform duration-300 group-hover:scale-105 md:gap-2 md:px-5 md:py-2.5 md:text-xs lg:px-6 lg:py-3 lg:text-sm">
               SHOP NOW
-              <MdArrowForward className="h-3 w-3 lg:h-4 lg:w-4" />
+              <MdArrowForward className="h-2 w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />
             </span>
           </div>
           
           {/* Slider Indicators */}
-          <div className="flex items-center gap-2 py-2">
+          <div className="flex items-center gap-1.5 py-1 md:gap-2 md:py-2">
             {phoneImages.map((_, index) => (
               <button
                 key={index}
@@ -133,10 +133,10 @@ export default function CategoryBanner() {
                   e.preventDefault();
                   goToPhoneImage(index);
                 }}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                className={`h-1.5 rounded-full transition-all duration-300 md:h-2 ${
                   index === currentPhoneImage
-                    ? "w-8 bg-white"
-                    : "w-2 bg-white/40 hover:bg-white/60"
+                    ? "w-6 bg-white md:w-8"
+                    : "w-1.5 bg-white/40 hover:bg-white/60 md:w-2"
                 }`}
                 aria-label={`Go to phone image ${index + 1}`}
               />
@@ -152,7 +152,7 @@ export default function CategoryBanner() {
         {/* Smart Watches Section */}
         <Link
           href={smartWatchesId ? `/products?category=${smartWatchesId}` : "/products"}
-          className="group relative min-h-[240px] flex-1 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="group relative min-h-[180px] flex-1 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
           <Image
@@ -167,17 +167,17 @@ export default function CategoryBanner() {
           <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/50" />
 
           {/* Content - All at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 space-y-2 p-6">
-            <h3 className="text-2xl font-bold text-white">
+          <div className="absolute bottom-0 left-0 right-0 z-10 space-y-1 p-3 md:space-y-2 md:p-6">
+            <h3 className="text-sm font-bold text-white md:text-xl lg:text-2xl">
               Smart Watches
             </h3>
-            <p className="text-sm text-slate-200">
+            <p className="text-[10px] text-slate-200 md:text-sm">
               Track your fitness, stay connected
             </p>
-            <div className="pt-2">
-              <span className="inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white transition-transform duration-300 group-hover:scale-105">
+            <div className="pt-1 md:pt-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-3 py-1.5 text-[10px] font-semibold text-white transition-transform duration-300 group-hover:scale-105 md:gap-2 md:px-4 md:py-2 md:text-xs">
                 SHOP NOW
-                <MdArrowForward className="h-3 w-3" />
+                <MdArrowForward className="h-2 w-2 md:h-3 md:w-3" />
               </span>
             </div>
           </div>
@@ -186,7 +186,7 @@ export default function CategoryBanner() {
         {/* Earbuds Section */}
         <Link
           href={earbudsId ? `/products?category=${earbudsId}` : "/products"}
-          className="group relative min-h-[240px] flex-1 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="group relative min-h-[180px] flex-1 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
           <Image
@@ -201,17 +201,17 @@ export default function CategoryBanner() {
           <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/50" />
 
           {/* Content - All at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 space-y-2 p-6">
-            <h3 className="text-2xl font-bold text-white">
+          <div className="absolute bottom-0 left-0 right-0 z-10 space-y-1 p-3 md:space-y-2 md:p-6">
+            <h3 className="text-sm font-bold text-white md:text-xl lg:text-2xl">
               Earbuds
             </h3>
-            <p className="text-sm text-slate-200">
+            <p className="text-[10px] text-slate-200 md:text-sm">
               Premium sound quality
             </p>
-            <div className="pt-2">
-              <span className="inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white transition-transform duration-300 group-hover:scale-105">
+            <div className="pt-1 md:pt-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-3 py-1.5 text-[10px] font-semibold text-white transition-transform duration-300 group-hover:scale-105 md:gap-2 md:px-4 md:py-2 md:text-xs">
                 SHOP NOW
-                <MdArrowForward className="h-3 w-3" />
+                <MdArrowForward className="h-2 w-2 md:h-3 md:w-3" />
               </span>
             </div>
           </div>

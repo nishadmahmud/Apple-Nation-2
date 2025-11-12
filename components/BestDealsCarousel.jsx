@@ -15,13 +15,13 @@ export default function BestDealsCarousel({ deals = [] }) {
   return (
     <section className="space-y-8">
       <div className="flex flex-col gap-3 text-center lg:text-left">
-        <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-emerald-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300 lg:self-start">
+        <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-emerald-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300 lg:self-start">
           Best Deals
         </div>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-zinc-100">
           Limited-time savings you cannot miss
         </h2>
-        <p className="mx-auto max-w-2xl text-base text-slate-600 dark:text-zinc-400 lg:mx-0">
+        <p className="mx-auto max-w-2xl text-base text-slate-700 dark:text-zinc-400 lg:mx-0">
           Handpicked offers from our merchandising team. Transparent pricing, original accessories, and remarkable value—updated daily.
         </p>
       </div>
@@ -56,7 +56,7 @@ export default function BestDealsCarousel({ deals = [] }) {
                   <h3 className="text-lg font-semibold text-slate-900 line-clamp-2 dark:text-zinc-100">
                     {deal.name}
                   </h3>
-                  <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-zinc-500">
+                  <p className="text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-zinc-500">
                     {deal.status || "Available"}
                   </p>
                 </div>
@@ -66,7 +66,7 @@ export default function BestDealsCarousel({ deals = [] }) {
                       {formatCurrency(discounted)}
                     </span>
                     {discounted !== original && original ? (
-                      <span className="text-sm font-medium text-slate-500 line-through dark:text-zinc-500">
+                      <span className="text-sm font-medium text-slate-600 line-through dark:text-zinc-500">
                         {formatCurrency(original)}
                       </span>
                     ) : null}

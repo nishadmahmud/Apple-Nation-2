@@ -15,13 +15,13 @@ export default function NewArrivalsGrid({ items = [] }) {
   return (
     <section className="space-y-10">
       <div className="flex flex-col gap-3 text-center lg:text-left">
-        <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-sky-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-sky-600 dark:bg-sky-400/10 dark:text-sky-300 lg:self-start">
+        <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-sky-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-sky-700 dark:bg-sky-400/10 dark:text-sky-300 lg:self-start">
           New Arrivals
         </div>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-zinc-100">
           Fresh drops curated for your Apple setup
         </h2>
-        <p className="mx-auto max-w-2xl text-base text-slate-600 dark:text-zinc-400 lg:mx-0">
+        <p className="mx-auto max-w-2xl text-base text-slate-700 dark:text-zinc-400 lg:mx-0">
           Be the first to experience the latest releases and premium accessories stocked exclusively for Apple Nation BD customers.
         </p>
       </div>
@@ -60,13 +60,13 @@ export default function NewArrivalsGrid({ items = [] }) {
                     {formatCurrency(price)}
                   </span>
                   {price !== original && original ? (
-                    <span className="text-sm text-slate-500 line-through dark:text-zinc-500">
+                    <span className="text-sm text-slate-600 line-through dark:text-zinc-500">
                       {formatCurrency(original)}
                     </span>
                   ) : null}
                 </div>
               </div>
-              <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-500">
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-zinc-500">
                 View details →
               </span>
             </Link>

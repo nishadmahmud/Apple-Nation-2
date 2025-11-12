@@ -22,13 +22,13 @@ export default function BlogPreviewSection({ posts = [] }) {
   return (
     <section className="space-y-10">
       <div className="flex flex-col gap-3 text-center lg:text-left">
-        <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-amber-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-amber-600 dark:bg-amber-400/10 dark:text-amber-300 lg:self-start">
+        <div className="inline-flex items-center justify-center gap-2 self-center rounded-full bg-amber-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-amber-700 dark:bg-amber-400/10 dark:text-amber-300 lg:self-start">
           Insights & Stories
         </div>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-zinc-100">
           Stay informed with the Apple Nation blog
         </h2>
-        <p className="mx-auto max-w-3xl text-base text-slate-600 dark:text-zinc-400 lg:mx-0">
+        <p className="mx-auto max-w-3xl text-base text-slate-700 dark:text-zinc-400 lg:mx-0">
           Read expert takes, buying guides, and how-tos to make the most of your Apple devices. Updated every week with fresh perspectives.
         </p>
       </div>
@@ -71,7 +71,7 @@ export default function BlogPreviewSection({ posts = [] }) {
                     {post.title}
                   </Link>
                   {excerpt ? (
-                    <p className="text-sm leading-relaxed text-slate-600 dark:text-zinc-400 line-clamp-3">
+                    <p className="text-sm leading-relaxed text-slate-700 dark:text-zinc-400 line-clamp-3">
                       {excerpt}
                     </p>
                   ) : null}

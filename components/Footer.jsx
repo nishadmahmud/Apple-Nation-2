@@ -28,7 +28,7 @@ const footerMenus = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white/90 text-slate-700 dark:border-zinc-700 dark:bg-zinc-900/80 dark:text-zinc-400">
+    <footer className="border-t border-slate-200 bg-white text-slate-700 dark:border-zinc-700 dark:bg-zinc-900/80 dark:text-zinc-400">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12 sm:px-10 lg:px-16">
         {/* Mobile Layout: Stacked rows */}
         <div className="flex flex-col gap-6 lg:hidden">
@@ -49,12 +49,12 @@ export default function Footer() {
                 <span className="text-lg font-bold text-slate-900 dark:text-zinc-100">
                   Apple Nation BD
                 </span>
-                <span className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-zinc-400">
+                <span className="text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-zinc-400">
                   Authentic Apple Gear
                 </span>
               </div>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+            <p className="max-w-xs text-sm leading-relaxed text-slate-700 dark:text-zinc-400">
               Bangladesh&apos;s trusted destination for premium Apple devices, accessories, and expert service.
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function Footer() {
                     <li key={`${menu.title}-${link.label}-${index}`}>
                       <Link
                         href={link.href}
-                        className="text-slate-600 transition-colors hover:text-slate-900 hover:underline dark:text-zinc-400 dark:hover:text-white"
+                        className="text-slate-700 transition-colors hover:text-slate-900 hover:underline dark:text-zinc-400 dark:hover:text-white"
                       >
                         {link.label}
                       </Link>
@@ -87,7 +87,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-zinc-200">
               Contact
             </h3>
-            <ul className="flex flex-col gap-3 text-sm text-slate-600 dark:text-zinc-400">
+            <ul className="flex flex-col gap-3 text-sm text-slate-700 dark:text-zinc-400">
               <li className="flex items-start gap-2">
                 <MdLocationOn className="mt-0.5 h-4 w-4" />
                 <span>Level 4 (Block A), Shop 4A006B, Jamuna Future Park, Dhaka 1229</span>
@@ -143,12 +143,12 @@ export default function Footer() {
                 <span className="text-lg font-bold text-slate-900 dark:text-zinc-100">
                   Apple Nation BD
                 </span>
-                <span className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-zinc-400">
+                <span className="text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-zinc-400">
                   Authentic Apple Gear
                 </span>
               </div>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+            <p className="max-w-xs text-sm leading-relaxed text-slate-700 dark:text-zinc-400">
               Bangladesh&apos;s trusted destination for premium Apple devices, accessories, and expert service.
             </p>
           </div>
@@ -162,7 +162,7 @@ export default function Footer() {
                   <li key={`${menu.title}-${link.label}-${index}`}>
                     <Link
                       href={link.href}
-                      className="text-slate-600 transition-colors hover:text-slate-900 hover:underline dark:text-zinc-400 dark:hover:text-white"
+                      className="text-slate-700 transition-colors hover:text-slate-900 hover:underline dark:text-zinc-400 dark:hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -176,7 +176,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-zinc-200">
               Contact
             </h3>
-            <ul className="flex flex-col gap-3 text-sm text-slate-600 dark:text-zinc-400">
+            <ul className="flex flex-col gap-3 text-sm text-slate-700 dark:text-zinc-400">
               <li className="flex items-start gap-2">
                 <MdLocationOn className="mt-0.5 h-4 w-4" />
                 <span>Level 4 (Block A), Shop 4A006B, Jamuna Future Park, Dhaka 1229</span>
@@ -213,7 +213,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col gap-4 border-t border-slate-200 pt-6 text-xs text-slate-500 dark:border-zinc-800 dark:text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-slate-200 pt-6 text-xs text-slate-600 dark:border-zinc-800 dark:text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Apple Nation BD. All rights reserved.</p>
           <div className="flex flex-wrap gap-4">
             <Link href="/privacy" className="hover:text-slate-900 hover:underline dark:hover:text-white">

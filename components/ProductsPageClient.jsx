@@ -21,7 +21,7 @@ export default function ProductsPageClient({
   const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100">
+    <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100">
       <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-10 lg:px-16 lg:py-8">
         {/* Mobile Header with Search */}
         <div className="mb-4 lg:mb-8">
@@ -30,7 +30,7 @@ export default function ProductsPageClient({
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-zinc-100">
                 {selectedCategory ? selectedCategory.name : "All Products"}
               </h1>
-              <p className="mt-2 text-base text-slate-600 dark:text-zinc-400">
+              <p className="mt-2 text-base text-slate-700 dark:text-zinc-400">
                 {filteredCount} product{filteredCount !== 1 ? "s" : ""} found
               </p>
             </div>
@@ -46,13 +46,13 @@ export default function ProductsPageClient({
         <div className="mb-4 flex items-center gap-2 lg:hidden">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
           >
             <MdFilterList className="h-5 w-5" />
             Filters
           </button>
           
-          <div className="flex gap-2 rounded-lg border border-slate-300 bg-white p-1 dark:border-zinc-700 dark:bg-zinc-800">
+          <div className="flex gap-2 rounded-lg border border-slate-300 bg-white p-1 text-slate-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
             <button
               onClick={() => setViewMode("grid")}
               className={`rounded-md p-2 transition-colors ${
@@ -79,7 +79,7 @@ export default function ProductsPageClient({
         </div>
 
         {/* Mobile result count */}
-        <p className="mb-4 text-sm text-slate-600 dark:text-zinc-400 lg:hidden">
+        <p className="mb-4 text-sm text-slate-700 dark:text-zinc-400 lg:hidden">
           {filteredCount} product{filteredCount !== 1 ? "s" : ""} found
         </p>
 
@@ -101,7 +101,7 @@ export default function ProductsPageClient({
                 </h2>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="text-sm font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400"
+                  className="text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400"
                 >
                   Done
                 </button>

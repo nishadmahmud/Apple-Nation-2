@@ -29,12 +29,12 @@ const trustHighlights = [
 
 export default function TrustBanner() {
   return (
-    <section className="space-y-8 rounded-3xl bg-white/90 p-6 shadow-xl shadow-slate-900/5 backdrop-blur-sm dark:bg-zinc-900/70 sm:space-y-10 sm:p-8 lg:space-y-12 lg:p-10">
+    <section className="space-y-8 rounded-3xl bg-white p-6 shadow-xl shadow-slate-900/5 backdrop-blur-sm dark:bg-zinc-900/70 sm:space-y-10 sm:p-8 lg:space-y-12 lg:p-10">
       <div className="flex flex-col gap-3 text-center lg:text-left">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl dark:text-zinc-100">
           Why shoppers trust Apple Nation BD
         </h2>
-        <p className="mx-auto max-w-3xl text-sm text-slate-600 dark:text-zinc-400 sm:text-base lg:mx-0">
+        <p className="mx-auto max-w-3xl text-sm text-slate-700 dark:text-zinc-400 sm:text-base lg:mx-0">
           We combine authentic products, expert support, and reliable logistics so you can upgrade with confidence.
         </p>
       </div>
@@ -42,7 +42,7 @@ export default function TrustBanner() {
         {trustHighlights.map((item) => (
           <div
             key={item.title}
-            className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/10 dark:border-zinc-800 dark:bg-zinc-950/40 dark:hover:shadow-zinc-900/30 sm:gap-4 sm:p-6"
+            className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/10 dark:border-zinc-800 dark:bg-zinc-950/40 dark:hover:shadow-zinc-900/30 sm:gap-4 sm:p-6"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500/15 text-lg text-sky-600 dark:bg-sky-400/10 dark:text-sky-300 sm:h-12 sm:w-12 sm:text-xl">
               {item.icon}
@@ -51,7 +51,7 @@ export default function TrustBanner() {
               <h3 className="text-base font-semibold text-slate-900 dark:text-zinc-100 sm:text-lg">
                 {item.title}
               </h3>
-              <p className="text-xs leading-relaxed text-slate-600 dark:text-zinc-400 sm:text-sm">
+              <p className="text-xs leading-relaxed text-slate-700 dark:text-zinc-400 sm:text-sm">
                 {item.description}
               </p>
             </div>

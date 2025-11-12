@@ -41,10 +41,10 @@ export default function NavBar() {
     };
   }, [mobileMenuOpen]);
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/30 bg-slate-100/95 backdrop-blur-xl backdrop-saturate-150 dark:border-zinc-700/30 dark:bg-zinc-900/95">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-2 sm:px-8 lg:px-12 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex items-center justify-between gap-6">
-          <Link href="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
+        <header className="sticky top-0 z-50 border-b border-slate-200/50 bg-white/90 backdrop-blur-xl backdrop-saturate-150 dark:border-zinc-700/30 dark:bg-zinc-900/95">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-2 sm:px-8 lg:px-12 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center justify-between gap-6">
+              <Link href="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
             <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-white sm:h-9 sm:w-9">
               <Image
                 src="/logo.png"
@@ -65,10 +65,10 @@ export default function NavBar() {
             </div>
           </Link>
           <div className="flex items-center gap-2 lg:hidden">
-            <button
+                <button
               type="button"
               onClick={() => setMiniOpen(true)}
-              className="relative inline-flex items-center justify-center rounded-full border border-slate-300 p-2 text-slate-600 transition-colors hover:border-slate-400 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-white"
+                  className="relative inline-flex items-center justify-center rounded-full border border-slate-300 p-2 text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-white"
               aria-label="View cart"
             >
               <MdShoppingCart className="h-5 w-5" />
@@ -78,17 +78,17 @@ export default function NavBar() {
                 </span>
               )}
             </button>
-            <button
+                <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="inline-flex items-center justify-center rounded-full border border-slate-300 p-2 text-slate-600 transition-colors hover:border-slate-400 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-white"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 p-2 text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-white"
               aria-label="Open navigation menu"
             >
               <MdMenu className="h-6 w-6" />
             </button>
           </div>
         </div>
-        <nav className="hidden items-center gap-4 text-xs font-medium text-slate-600 dark:text-zinc-300 lg:flex">
+            <nav className="hidden items-center gap-4 text-xs font-semibold text-slate-700 dark:text-zinc-300 lg:flex">
           {navigationLinks.map((link) => (
             <Link
               key={link.href}

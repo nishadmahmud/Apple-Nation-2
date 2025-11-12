@@ -79,7 +79,7 @@ export default function CategoryBanner() {
       {/* Large Phone Section */}
       <Link
         href={officialPhoneId ? `/products?category=${officialPhoneId}` : "/products"}
-        className="group relative aspect-[12/9] overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:aspect-auto lg:min-h-[500px]"
+        className="group relative aspect-[12/9] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:aspect-auto lg:min-h-[500px]"
       >
         {/* Phone Background Images Slider */}
         {phoneImages.map((phone, index) => (

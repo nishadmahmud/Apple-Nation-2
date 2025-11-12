@@ -70,8 +70,8 @@ export default function HeroSlider() {
       <div className="relative mx-auto flex max-w-7xl flex-col gap-4 p-4 sm:gap-6 sm:p-6 lg:gap-8 lg:p-8">
         {/* Image */}
         <div className="relative flex items-center justify-center">
-          <div className="relative w-full overflow-hidden rounded-2xl bg-white/90 p-3 shadow-xl shadow-slate-900/10 backdrop-blur-sm sm:max-w-4xl sm:p-4 dark:bg-zinc-900/70">
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-zinc-800">
+          <div className="relative w-full overflow-hidden rounded-sm bg-white/90 p-3 shadow-xl shadow-slate-900/10 backdrop-blur-sm sm:max-w-4xl sm:p-4 dark:bg-zinc-900/70">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm bg-slate-100 dark:bg-zinc-800">
               <Image
                 src={currentSlideData.image}
                 alt={currentSlideData.title}

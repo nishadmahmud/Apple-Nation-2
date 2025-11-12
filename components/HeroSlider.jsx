@@ -63,13 +63,33 @@ export default function HeroSlider() {
   const currentSlideData = slides[currentSlide];
 
   return (
-    <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-slate-200 via-white to-slate-100 shadow-lg shadow-slate-900/5 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900">
+    <div className="relative isolate overflow-hidden rounded-sm bg-gradient-to-br from-slate-200 via-white to-slate-100 shadow-lg shadow-slate-900/5 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900">
       {/* Background Gradient */}
       <div className={`absolute inset-0 bg-gradient-to-br ${currentSlideData.bgGradient} transition-all duration-1000`} />
       
-      <div className="relative mx-auto grid max-w-7xl items-center gap-6 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8 lg:p-8">
-        {/* Content */}
-        <div className="relative z-10 flex flex-col gap-4">
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-4 p-4 sm:gap-6 sm:p-6 lg:gap-8 lg:p-8">
+        {/* Image */}
+        <div className="relative flex items-center justify-center">
+          <div className="relative w-full overflow-hidden rounded-2xl bg-white/90 p-3 shadow-xl shadow-slate-900/10 backdrop-blur-sm sm:max-w-4xl sm:p-4 dark:bg-zinc-900/70">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-zinc-800">
+              <Image
+                src={currentSlideData.image}
+                alt={currentSlideData.title}
+                fill
+                className="object-contain transition-transform duration-700"
+                sizes="(max-width: 640px) 95vw, (max-width: 1024px) 90vw, 900px"
+                priority={currentSlide === 0}
+              />
+            </div>
+          </div>
+          
+          {/* Decorative Blobs */}
+          <div className="absolute -left-20 top-8 hidden h-32 w-32 rounded-full bg-sky-400/20 blur-3xl lg:block" />
+          <div className="absolute -right-14 -bottom-8 hidden h-28 w-28 rounded-full bg-emerald-400/20 blur-3xl lg:block" />
+        </div>
+
+        {/* Content at Bottom */}
+        <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <div className="inline-flex items-center gap-3 rounded-full bg-slate-900/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-700 dark:bg-white/10 dark:text-zinc-200">
             Apple Nation BD
             <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
@@ -77,13 +97,29 @@ export default function HeroSlider() {
             </span>
           </div>
           
-          <h1 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-zinc-100">
+          <h1 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl lg:text-4xl dark:text-zinc-100">
             {currentSlideData.title}
           </h1>
           
-          <p className="max-w-xl text-base leading-relaxed text-slate-700 dark:text-zinc-300">
+          <p className="max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base dark:text-zinc-300">
             {currentSlideData.description}
           </p>
+
+          {/* Slide Indicators */}
+          <div className="flex items-center gap-2 py-2">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide
+                    ? "w-8 bg-sky-600 dark:bg-sky-500"
+                    : "w-2 bg-slate-300 hover:bg-slate-400 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
           
           <div className="flex flex-col gap-2 sm:flex-row">
             <Link
@@ -99,42 +135,6 @@ export default function HeroSlider() {
               Browse All
             </Link>
           </div>
-
-          {/* Slide Indicators */}
-          <div className="flex items-center gap-2">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === currentSlide
-                    ? "w-8 bg-sky-600 dark:bg-sky-500"
-                    : "w-2 bg-slate-300 hover:bg-slate-400 dark:bg-zinc-700 dark:hover:bg-zinc-600"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Image */}
-        <div className="relative flex items-center justify-center">
-          <div className="relative w-full max-w-sm overflow-hidden rounded-2xl bg-white/90 p-4 shadow-xl shadow-slate-900/10 backdrop-blur-sm dark:bg-zinc-900/70">
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-slate-100">
-              <Image
-                src={currentSlideData.image}
-                alt={currentSlideData.title}
-                fill
-                className="object-cover transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, 400px"
-                priority={currentSlide === 0}
-              />
-            </div>
-          </div>
-          
-          {/* Decorative Blobs */}
-          <div className="absolute -left-20 top-8 hidden h-32 w-32 rounded-full bg-sky-400/20 blur-3xl lg:block" />
-          <div className="absolute -right-14 -bottom-8 hidden h-28 w-28 rounded-full bg-emerald-400/20 blur-3xl lg:block" />
         </div>
       </div>
     </div>

@@ -70,7 +70,7 @@ const colorClasses = {
 
 export default function HeroFeatureCards() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
       {features.map((feature) => {
         const Icon = feature.icon;
         const colorClass = colorClasses[feature.color];
@@ -79,15 +79,15 @@ export default function HeroFeatureCards() {
           <Link
             key={feature.id}
             href={feature.link}
-            className="group relative overflow-hidden rounded-2xl border bg-white/95 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700"
+            className="group relative overflow-hidden rounded-2xl border bg-white/95 p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg sm:p-6 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700"
           >
-            <div className={`mb-4 inline-flex rounded-xl border p-3 ${colorClass}`}>
-              <Icon className="h-6 w-6" />
+            <div className={`mb-2 inline-flex rounded-xl border p-2 sm:mb-4 sm:p-3 ${colorClass}`}>
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="mb-2 text-base font-semibold text-slate-900 dark:text-zinc-100">
+            <h3 className="text-xs font-semibold text-slate-900 sm:mb-2 sm:text-base dark:text-zinc-100">
               {feature.title}
             </h3>
-            <p className="text-sm leading-relaxed text-slate-700 dark:text-zinc-400">
+            <p className="hidden text-sm leading-relaxed text-slate-700 sm:block dark:text-zinc-400">
               {feature.description}
             </p>
             

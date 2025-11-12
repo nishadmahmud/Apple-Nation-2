@@ -75,11 +75,11 @@ export default function CategoryBanner() {
   };
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
+    <div className="grid grid-cols-2 gap-3 lg:grid-cols-[2fr_1fr]">
       {/* Large Phone Section */}
       <Link
         href={officialPhoneId ? `/products?category=${officialPhoneId}` : "/products"}
-        className="group relative aspect-[16/9] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:aspect-auto lg:min-h-[500px]"
+        className="group relative col-span-2 aspect-[16/9] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-1 lg:aspect-auto lg:min-h-[500px]"
       >
         {/* Phone Background Images Slider */}
         {phoneImages.map((phone, index) => (
@@ -148,11 +148,11 @@ export default function CategoryBanner() {
       </Link>
 
       {/* Right Column - Two Smaller Sections */}
-      <div className="flex flex-col gap-4">
+      <div className="col-span-2 grid grid-cols-2 gap-2 lg:col-span-1 lg:flex lg:flex-col">
         {/* Smart Watches Section */}
         <Link
           href={smartWatchesId ? `/products?category=${smartWatchesId}` : "/products"}
-          className="group relative min-h-[180px] flex-1 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
+          className="group relative min-h-[150px] flex-1 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
           <Image
@@ -171,7 +171,7 @@ export default function CategoryBanner() {
             <h3 className="text-sm font-bold text-white md:text-xl lg:text-2xl">
               Smart Watches
             </h3>
-            <p className="text-[10px] text-slate-200 md:text-sm">
+            <p className="hidden text-[10px] text-slate-200 md:block md:text-sm">
               Track your fitness, stay connected
             </p>
             <div className="pt-1 md:pt-2">
@@ -186,7 +186,7 @@ export default function CategoryBanner() {
         {/* Earbuds Section */}
         <Link
           href={earbudsId ? `/products?category=${earbudsId}` : "/products"}
-          className="group relative min-h-[180px] flex-1 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
+          className="group relative min-h-[150px] flex-1 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
           <Image
@@ -205,7 +205,7 @@ export default function CategoryBanner() {
             <h3 className="text-sm font-bold text-white md:text-xl lg:text-2xl">
               Earbuds
             </h3>
-            <p className="text-[10px] text-slate-200 md:text-sm">
+            <p className="hidden text-[10px] text-slate-200 md:block md:text-sm">
               Premium sound quality
             </p>
             <div className="pt-1 md:pt-2">

@@ -79,7 +79,7 @@ export default function CategoryBanner() {
       {/* Large Phone Section */}
       <Link
         href={officialPhoneId ? `/products?category=${officialPhoneId}` : "/products"}
-        className="group relative col-span-2 aspect-[16/9] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-1 lg:aspect-auto lg:min-h-[500px]"
+        className="group relative col-span-2 aspect-[16/11] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-1 lg:aspect-auto lg:min-h-[500px]"
       >
         {/* Phone Background Images Slider */}
         {phoneImages.map((phone, index) => (
@@ -152,7 +152,7 @@ export default function CategoryBanner() {
         {/* Smart Watches Section */}
         <Link
           href={smartWatchesId ? `/products?category=${smartWatchesId}` : "/products"}
-          className="group relative min-h-[150px] flex-1 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
+          className="group relative min-h-[160px] flex-1 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
           <Image
@@ -186,7 +186,7 @@ export default function CategoryBanner() {
         {/* Earbuds Section */}
         <Link
           href={earbudsId ? `/products?category=${earbudsId}` : "/products"}
-          className="group relative min-h-[150px] flex-1 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
+          className="group relative min-h-[160px] flex-1 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
           <Image

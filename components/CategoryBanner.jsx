@@ -4,36 +4,14 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MdArrowForward } from "react-icons/md";
-import { getAllCategories } from "../lib/api";
-
-// Phone slider images
-const phoneImages = [
-  {
-    id: 1,
-    url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&h=1000&fit=crop&q=80",
-    alt: "iPhone 15 Pro Max",
-  },
-  {
-    id: 2,
-    url: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&h=1000&fit=crop&q=80",
-    alt: "iPhone 16 Pro",
-  },
-  {
-    id: 3,
-    url: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800&h=1000&fit=crop&q=80",
-    alt: "Latest iPhone Models",
-  },
-];
-
-// Smartwatch image
-const smartwatchImage = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop&q=80";
-
-// Earbuds image
-const earbudsImage = "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800&h=800&fit=crop&q=80";
+import { getAllCategories, fetchSliders, getSliders, fetchBanners, getBanners } from "../lib/api";
 
 export default function CategoryBanner() {
   const [currentPhoneImage, setCurrentPhoneImage] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [phoneImages, setPhoneImages] = useState([]);
+  const [smartwatchImage, setSmartwatchImage] = useState("");
+  const [earbudsImage, setEarbudsImage] = useState("");
   
   // Get category IDs for links
   const categories = getAllCategories();
@@ -45,16 +23,97 @@ export default function CategoryBanner() {
   const smartWatchesId = smartWatchesCategory?.id;
   const earbudsId = earbudsCategory?.id;
 
+  // Fetch slider images from API
+  useEffect(() => {
+    const loadSliderImages = async () => {
+      try {
+        const apiUrl = getSliders();
+        
+        // Check if URL is valid
+        if (!apiUrl) {
+          console.warn("Slider API URL is not configured.");
+          return;
+        }
+        
+        console.log("Fetching slider images from:", apiUrl);
+        
+        const response = await fetchSliders();
+        if (response?.success && response?.data && response.data.length > 0) {
+          // Get the first slider's image_path array
+          const slider = response.data[0];
+          if (slider.image_path && Array.isArray(slider.image_path) && slider.image_path.length > 0) {
+            // Transform API images to match our structure
+            const images = slider.image_path.map((url, index) => ({
+              id: index + 1,
+              url: url,
+              alt: slider.title || `Slider Image ${index + 1}`,
+            }));
+            setPhoneImages(images);
+            console.log("Successfully loaded", images.length, "slider images");
+          } else {
+            console.warn("Slider data found but no image_path array");
+          }
+        } else {
+          console.warn("No slider data found in API response");
+        }
+      } catch (error) {
+        console.error("Error fetching slider images:", error);
+        console.error("Attempted URL:", getSliders());
+      }
+    };
+
+    loadSliderImages();
+  }, []);
+
+  // Fetch banner images from API
+  useEffect(() => {
+    const loadBannerImages = async () => {
+      try {
+        const apiUrl = getBanners();
+        
+        // Check if URL is valid
+        if (!apiUrl) {
+          console.warn("Banner API URL is not configured.");
+          return;
+        }
+        
+        console.log("Fetching banner images from:", apiUrl);
+        
+        const response = await fetchBanners();
+        if (response?.success && response?.data && Array.isArray(response.data) && response.data.length >= 2) {
+          // First banner (index 0) for earbuds
+          if (response.data[0]?.image_path) {
+            setEarbudsImage(response.data[0].image_path);
+            console.log("Earbuds banner image loaded");
+          }
+          
+          // Second banner (index 1) for smartwatch
+          if (response.data[1]?.image_path) {
+            setSmartwatchImage(response.data[1].image_path);
+            console.log("Smartwatch banner image loaded");
+          }
+        } else {
+          console.warn("Not enough banner data found in API response (need at least 2 banners)");
+        }
+      } catch (error) {
+        console.error("Error fetching banner images:", error);
+        console.error("Attempted URL:", getBanners());
+      }
+    };
+
+    loadBannerImages();
+  }, []);
+
   // Auto-play phone slider
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || phoneImages.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentPhoneImage((prev) => (prev + 1) % phoneImages.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, phoneImages.length]);
 
   const nextPhoneImage = () => {
     setCurrentPhoneImage((prev) => (prev + 1) % phoneImages.length);
@@ -79,7 +138,7 @@ export default function CategoryBanner() {
       {/* Large Phone Section */}
       <Link
         href={officialPhoneId ? `/products?category=${officialPhoneId}` : "/products"}
-        className="group relative col-span-2 aspect-[16/11] overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-1 lg:aspect-auto lg:min-h-[500px]"
+        className="group relative col-span-2 aspect-16/10 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-1 lg:aspect-auto lg:min-h-[500px]"
       >
         {/* Phone Background Images Slider */}
         {phoneImages.map((phone, index) => (
@@ -96,6 +155,7 @@ export default function CategoryBanner() {
               className="object-cover"
               sizes="(max-width: 1024px) 66vw, 50vw"
               priority={index === 0}
+              unoptimized
             />
           </div>
         ))}
@@ -155,13 +215,16 @@ export default function CategoryBanner() {
           className="group relative min-h-[160px] flex-1 overflow-hidden rounded-md shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
-          <Image
-            src={smartwatchImage}
-            alt="Smart Watches"
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 50vw, 33vw"
-          />
+          {smartwatchImage && (
+            <Image
+              src={smartwatchImage}
+              alt="Smart Watches"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 50vw, 33vw"
+              unoptimized
+            />
+          )}
 
           {/* Overlay for Text Readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />
@@ -189,13 +252,16 @@ export default function CategoryBanner() {
           className="group relative min-h-[160px] flex-1 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl md:min-h-[240px]"
         >
           {/* Background Image */}
-          <Image
-            src={earbudsImage}
-            alt="Earbuds"
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 50vw, 33vw"
-          />
+          {earbudsImage && (
+            <Image
+              src={earbudsImage}
+              alt="Earbuds"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 50vw, 33vw"
+              unoptimized
+            />
+          )}
 
           {/* Overlay for Text Readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />

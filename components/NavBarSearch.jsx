@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MdSearch, MdClose, MdKeyboardArrowDown } from "react-icons/md";
-import { getAllProducts } from "../lib/api";
+import { fetchCategories, fetchCategoryProducts } from "../lib/api";
 
 // In-memory cache for search results
 const searchCache = new Map();
@@ -15,7 +15,8 @@ const MAX_CACHE_SIZE = 20; // Maximum number of cached searches
 // Cache for all products (loaded once)
 let allProductsCache = null;
 let allProductsCacheTime = null;
-const ALL_PRODUCTS_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+const ALL_PRODUCTS_CACHE_TTL = 30 * 60 * 1000; // 30 minutes - longer cache for better performance
+let isLoadingProducts = false; // Prevent multiple simultaneous loads
 
 const formatCurrency = (value) => {
   const amount = Number(value);
@@ -55,12 +56,12 @@ const searchProducts = (products, query, limit = 8) => {
   if (!query || query.trim().length < 2) return [];
   
   const normalizedQuery = query.toLowerCase().trim();
-  const searchTerms = normalizedQuery.split(/\s+/);
   
   return products
     .filter((product) => {
       const name = String(product.name || "").toLowerCase();
-      return searchTerms.every((term) => name.includes(term));
+      // Match if query is found anywhere in the product name
+      return name.includes(normalizedQuery);
     })
     .slice(0, limit);
 };
@@ -80,7 +81,7 @@ export default function NavBarSearch() {
   const abortControllerRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Load all products once and cache them
+  // Load products quickly - only top 10 categories with most products
   useEffect(() => {
     const loadAllProducts = async () => {
       // Check if cache is still valid
@@ -89,39 +90,98 @@ export default function NavBarSearch() {
         allProductsCacheTime &&
         Date.now() - allProductsCacheTime < ALL_PRODUCTS_CACHE_TTL
       ) {
+        console.log("✓ Using cached products:", allProductsCache.length);
         return;
       }
 
+      // Prevent multiple simultaneous loads
+      if (isLoadingProducts) {
+        return;
+      }
+
+      isLoadingProducts = true;
+
       try {
-        const url = getAllProducts();
-        const response = await fetch(url, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+        console.log("⚡ Loading products for search...");
+        const startTime = Date.now();
+        
+        // Fetch categories first
+        const categoriesResult = await fetchCategories();
+        
+        if (!categoriesResult?.success || !Array.isArray(categoriesResult?.data)) {
+          console.error("❌ Failed to fetch categories");
+          isLoadingProducts = false;
+          return;
+        }
+
+        // Only fetch from TOP 10 categories (by product count) for speed
+        const topCategories = categoriesResult.data
+          .filter((cat) => cat.product_count > 0)
+          .sort((a, b) => b.product_count - a.product_count)
+          .slice(0, 10); // Only top 10!
+        
+        console.log("📦 Fetching from top", topCategories.length, "categories");
+
+        // Fetch all in parallel with timeout
+        const TIMEOUT = 5000; // 5 second timeout per category
+        const categoryPromises = topCategories.map(async (category) => {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+            
+            const result = await fetchCategoryProducts(category.category_id, 1, 30);
+            clearTimeout(timeoutId);
+            
+            let categoryProducts = [];
+            if (Array.isArray(result?.data?.data)) {
+              categoryProducts = result.data.data;
+            } else if (Array.isArray(result?.data)) {
+              categoryProducts = result.data;
+            } else if (Array.isArray(result)) {
+              categoryProducts = result;
+            }
+            
+            return categoryProducts;
+          } catch (error) {
+            console.warn(`⚠️ Skipped category ${category.name}`);
+            return [];
+          }
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const results = await Promise.allSettled(categoryPromises);
+        
+        // Merge and deduplicate
+        const seenIds = new Set();
+        const allProducts = [];
+        
+        results.forEach((result) => {
+          if (result.status === "fulfilled" && Array.isArray(result.value)) {
+            result.value.forEach((product) => {
+              if (product.id && !seenIds.has(product.id)) {
+                seenIds.add(product.id);
+                allProducts.push(product);
+              }
+            });
+          }
+        });
 
-        const data = await response.json();
-        // Handle different response structures
-        let products = [];
-        if (Array.isArray(data?.data)) {
-          products = data.data;
-        } else if (Array.isArray(data)) {
-          products = data;
-        }
-
-        if (products.length > 0) {
-          allProductsCache = products;
+        const loadTime = Date.now() - startTime;
+        console.log(`✓ Loaded ${allProducts.length} products in ${loadTime}ms`);
+        
+        if (allProducts.length > 0) {
+          allProductsCache = allProducts;
           allProductsCacheTime = Date.now();
+        } else {
+          console.error("❌ No products loaded!");
         }
       } catch (error) {
-        console.error("Error loading products for search:", error);
+        console.error("❌ Error loading products:", error);
+      } finally {
+        isLoadingProducts = false;
       }
     };
 
+    // Start loading immediately
     loadAllProducts();
   }, []);
 
@@ -133,7 +193,7 @@ export default function NavBarSearch() {
       return;
     }
 
-    // Check cache first
+    // Check cache first - instant results!
     const cachedResults = getCachedResults(searchQuery);
     if (cachedResults) {
       setResults(cachedResults);
@@ -141,80 +201,60 @@ export default function NavBarSearch() {
       return;
     }
 
-    setLoading(true);
-
-    // Cancel previous request
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
+    // Use cached products if available
+    let productsToSearch = allProductsCache;
+    
+    if (!productsToSearch || productsToSearch.length === 0) {
+      // Products not loaded yet, show loading
+      setLoading(true);
+      
+      // Retry up to 5 times (5 seconds total)
+      let retries = 0;
+      const maxRetries = 10;
+      const retryInterval = setInterval(() => {
+        retries++;
+        if (allProductsCache && allProductsCache.length > 0) {
+          clearInterval(retryInterval);
+          performSearch(searchQuery);
+        } else if (retries >= maxRetries) {
+          clearInterval(retryInterval);
+          setLoading(false);
+          setResults([]);
+          console.error("❌ Products failed to load");
+        }
+      }, 500);
+      return;
     }
 
-    // Create new abort controller
-    abortControllerRef.current = new AbortController();
+    setLoading(false);
 
-    try {
-      // Use cached products if available, otherwise fetch
-      let productsToSearch = allProductsCache;
-      
-      if (!productsToSearch) {
-        const url = getAllProducts();
-        const response = await fetch(url, {
-          signal: abortControllerRef.current.signal,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        // Handle different response structures
-        if (Array.isArray(data?.data)) {
-          productsToSearch = data.data;
-        } else if (Array.isArray(data)) {
-          productsToSearch = data;
-        } else {
-          productsToSearch = [];
-        }
-
-        if (productsToSearch.length > 0) {
-          allProductsCache = productsToSearch;
-          allProductsCacheTime = Date.now();
-        }
-      }
-
-      // Perform client-side search
-      const searchResults = searchProducts(productsToSearch || [], searchQuery, 8);
-      
-      // Cache results
-      setCachedResults(searchQuery, searchResults);
-      
-      setResults(searchResults);
-    } catch (error) {
-      if (error.name === "AbortError") {
-        // Request was cancelled, ignore
-        return;
-      }
-      console.error("Search error:", error);
-      setResults([]);
-    } finally {
-      if (!abortControllerRef.current?.signal.aborted) {
-        setLoading(false);
-      }
-    }
+    // Perform client-side search - very fast!
+    const searchResults = searchProducts(productsToSearch, searchQuery, 8);
+    
+    // Cache results for instant future searches
+    setCachedResults(searchQuery, searchResults);
+    
+    setResults(searchResults);
   }, []);
 
-  // Debounced search handler
+  // Debounced search handler - reduced delay for faster response
   useEffect(() => {
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
     if (query.trim().length >= 2) {
-      debounceTimer.current = setTimeout(() => {
-        performSearch(query);
-      }, 300);
+      // Check cache immediately for instant results
+      const cachedResults = getCachedResults(query);
+      if (cachedResults) {
+        setResults(cachedResults);
+        setLoading(false);
+      } else {
+        // Reduced debounce from 300ms to 150ms for faster response
+        debounceTimer.current = setTimeout(() => {
+          performSearch(query);
+        }, 150);
+      }
     } else {
       setResults([]);
       setLoading(false);

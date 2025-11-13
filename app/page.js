@@ -5,6 +5,8 @@ import HeroSection from "../components/HeroSection";
 import NewArrivalsGrid from "../components/NewArrivalsGrid";
 import TrustBanner from "../components/TrustBanner";
 import CategoryBannerRow from "../components/CategoryBannerRow";
+import SingleBanner from "../components/SingleBanner";
+import BrandWiseProducts from "../components/BrandWiseProducts";
 import {
   fetchBestDeals,
   fetchBlogs,
@@ -60,6 +62,7 @@ export default async function Home() {
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-6 pb-24 pt-6 sm:px-10 lg:px-16 lg:pb-32 lg:pt-8">
         <HeroSection />
         <CategoryShowcase categories={categories} />
+        <BrandWiseProducts />
         <section id="best-deals">
           <BestDealsCarousel deals={bestDeals} />
         </section>
@@ -67,6 +70,7 @@ export default async function Home() {
           <NewArrivalsGrid items={newArrivals} />
         </section>
         <CategoryBannerRow />
+        <SingleBanner />
         <BlogPreviewSection posts={blogPosts} />
         <TrustBanner />
       </main>

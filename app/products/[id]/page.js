@@ -5,7 +5,8 @@ import LoadingSpinner from "../../../components/LoadingSpinner";
 import ProductDetailsWrapper from "../../../components/ProductDetailsWrapper";
 import { MdArrowBack } from "react-icons/md";
 
-export const revalidate = 600; // Revalidate every 10 minutes
+// Optimize for faster loading with short cache
+export const revalidate = 30; // Revalidate every 30 seconds for balance
 
 // Helper function to format currency
 const formatCurrency = (value) => {
@@ -39,6 +40,7 @@ const sanitizeHTML = (html) => {
 
 async function ProductDetailsContent({ productId }) {
   try {
+    // Fetch product detail with optimized caching
     const response = await fetchProductDetail(productId);
     
     if (!response?.success || !response?.data) {
@@ -49,7 +51,7 @@ async function ProductDetailsContent({ productId }) {
               Product Not Found
             </h1>
             <p className="mt-2 text-slate-600 dark:text-zinc-400">
-              The product you're looking for doesn't exist.
+              The product you&apos;re looking for doesn&apos;t exist.
             </p>
             <Link
               href="/products"

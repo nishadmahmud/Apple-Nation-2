@@ -4,7 +4,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import {
   fetchAllProducts,
   fetchCategoryProducts,
-  getAllCategories,
+  fetchCategories,
 } from "../../lib/api";
 
 
@@ -22,40 +22,61 @@ async function getAllProductsFromCategories() {
     return cachedAllProducts;
   }
 
-  const categories = getAllCategories();
+  // Fetch categories from API
+  const categoriesResult = await fetchCategories();
+  const categories =
+    categoriesResult?.success && Array.isArray(categoriesResult?.data)
+      ? categoriesResult.data.filter((cat) => cat.product_count > 0)
+      : [];
+  
   let allProducts = [];
   
   try {
     // Fetch all categories in parallel
     const categoryPromises = categories.map(async (category) => {
       try {
-        // Get total pages from category metadata
-        const totalPages = category.totalPages || 1;
-        const pagePromises = [];
+        // Fetch first page to get pagination info
+        const firstPageResult = await fetchCategoryProducts(category.category_id, 1, 20);
+        let categoryProducts = [];
+        let totalPages = 1;
         
-        // Fetch all pages for this category
-        for (let page = 1; page <= totalPages; page++) {
-          pagePromises.push(fetchCategoryProducts(category.id, page, 20));
+        // Extract products from first page
+        if (Array.isArray(firstPageResult?.data?.data)) {
+          categoryProducts = [...firstPageResult.data.data];
+          totalPages = firstPageResult?.data?.last_page || 
+                      firstPageResult?.data?.total_pages ||
+                      Math.ceil((firstPageResult?.data?.total || 0) / 20) ||
+                      1;
+        } else if (Array.isArray(firstPageResult?.data)) {
+          categoryProducts = [...firstPageResult.data];
+        } else if (Array.isArray(firstPageResult)) {
+          categoryProducts = [...firstPageResult];
         }
         
-        const pageResults = await Promise.allSettled(pagePromises);
-        const categoryProducts = [];
-        
-        pageResults.forEach((result) => {
-          if (result.status === "fulfilled") {
-            let pageProducts = [];
-            if (Array.isArray(result.value?.data?.data)) {
-              pageProducts = result.value.data.data;
-            } else if (Array.isArray(result.value?.data)) {
-              pageProducts = result.value.data;
-            } else if (Array.isArray(result.value)) {
-              pageProducts = result.value;
-            }
-            if (pageProducts.length > 0) {
-              categoryProducts.push(...pageProducts);
-            }
+        // Fetch remaining pages if there are more
+        if (totalPages > 1) {
+          const remainingPages = [];
+          for (let page = 2; page <= totalPages; page++) {
+            remainingPages.push(fetchCategoryProducts(category.category_id, page, 20));
           }
-        });
+          
+          const remainingResults = await Promise.allSettled(remainingPages);
+          remainingResults.forEach((result) => {
+            if (result.status === "fulfilled") {
+              let pageProducts = [];
+              if (Array.isArray(result.value?.data?.data)) {
+                pageProducts = result.value.data.data;
+              } else if (Array.isArray(result.value?.data)) {
+                pageProducts = result.value.data;
+              } else if (Array.isArray(result.value)) {
+                pageProducts = result.value;
+              }
+              if (pageProducts.length > 0) {
+                categoryProducts.push(...pageProducts);
+              }
+            }
+          });
+        }
         
         return categoryProducts;
       } catch (error) {
@@ -178,7 +199,17 @@ async function ProductsContent({ searchParams }) {
   const currentPage = Number(params?.page) || 1;
   const itemsPerPage = 20;
 
-  const categories = getAllCategories();
+  // Fetch categories from API
+  const categoriesResult = await fetchCategories();
+  const categories =
+    categoriesResult?.success && Array.isArray(categoriesResult?.data)
+      ? categoriesResult.data.map((cat) => ({
+          id: String(cat.category_id),
+          name: cat.name,
+          slug: cat.name.toLowerCase().replace(/\s+/g, "-"),
+          product_count: cat.product_count,
+        }))
+      : [];
 
   // Fetch all products from all categories (cached)
   const allProducts = await getAllProductsFromCategories();

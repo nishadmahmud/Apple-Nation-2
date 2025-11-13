@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getAllCategories } from "../lib/api";
+import { getCategories } from "../lib/api";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 const PRICE_RANGES = [
@@ -25,10 +25,48 @@ const SORT_OPTIONS = [
 export default function ProductFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const categories = getAllCategories();
-
+  const [categories, setCategories] = useState([]);
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isPriceOpen, setIsPriceOpen] = useState(true);
+
+  // Fetch categories from API
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const url = getCategories();
+        if (!url) {
+          console.warn("Categories API URL is not configured.");
+          return;
+        }
+
+        const response = await fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data?.success && Array.isArray(data?.data)) {
+          const formattedCategories = data.data
+            .filter((cat) => cat.product_count > 0) // Only show categories with products
+            .map((cat) => ({
+              id: String(cat.category_id),
+              name: cat.name,
+              product_count: cat.product_count,
+            }));
+          setCategories(formattedCategories);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   const currentCategory = searchParams.get("category") || "all";
   const currentPriceRange = searchParams.get("price") || "all";

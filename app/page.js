@@ -11,19 +11,32 @@ import {
   fetchBestDeals,
   fetchBlogs,
   fetchNewArrivals,
-  getAllCategories,
+  fetchCategories,
 } from "../lib/api";
 
 export const revalidate = 600;
 
 const getHomeContent = async () => {
-  const categories = getAllCategories();
-
-  const [bestDealsResult, newArrivalsResult, blogsResult] = await Promise.allSettled([
+  const [categoriesResult, bestDealsResult, newArrivalsResult, blogsResult] = await Promise.allSettled([
+    fetchCategories(),
     fetchBestDeals(),
     fetchNewArrivals(),
     fetchBlogs(),
   ]);
+
+  const categories =
+    categoriesResult.status === "fulfilled" && Array.isArray(categoriesResult.value?.data)
+      ? categoriesResult.value.data
+          .filter((cat) => cat.product_count > 0) // Only show categories with products
+          .map((cat) => ({
+            id: cat.category_id,
+            name: cat.name,
+            slug: cat.name.toLowerCase().replace(/\s+/g, "-"),
+            image_url: cat.image_url,
+            banner: cat.banner,
+            product_count: cat.product_count,
+          }))
+      : [];
 
   const bestDeals =
     bestDealsResult.status === "fulfilled"

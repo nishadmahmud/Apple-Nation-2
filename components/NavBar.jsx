@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { MdClose, MdShoppingCart, MdMenu } from "react-icons/md";
+import NavBarSearch from "./NavBarSearch";
 
 const CartDrawer = dynamic(() => import("./CartDrawer"), { ssr: false });
 
@@ -99,6 +100,9 @@ export default function NavBar() {
             </Link>
           ))}
         </nav>
+        <div className="hidden items-center gap-3 lg:flex">
+          <NavBarSearch />
+        </div>
         <div className="hidden items-center gap-2 lg:flex">
           <ThemeToggle />
           <button
@@ -141,6 +145,11 @@ export default function NavBar() {
                 >
                   <MdClose className="h-6 w-6" />
                 </button>
+              </div>
+              
+              {/* Search Bar */}
+              <div className="border-b border-slate-200 px-4 py-4 dark:border-zinc-700">
+                <NavBarSearch />
               </div>
               
               {/* Navigation Links */}

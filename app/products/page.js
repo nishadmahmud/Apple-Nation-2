@@ -12,13 +12,13 @@ export const metadata = {
   description:
     "Browse every Apple device, accessory, and lifestyle gadget available at Apple Nation BD. Filter by category, price, or search instantly.",
   alternates: {
-    canonical: "https://www.applenationbd.com/products",
+    // canonical: "https://www.applenationbd.com/products",
   },
   openGraph: {
     title: "Shop Apple Products & Accessories | Apple Nation BD",
     description:
       "Explore the complete catalog of Apple Nation BD. Compare iPhone, iPad, Mac, Watch, audio gear, and premium accessories in one place.",
-    url: "https://www.applenationbd.com/products",
+    // url: "https://www.applenationbd.com/products",
     type: "website",
   },
   twitter: {
